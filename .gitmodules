@@ -1,0 +1,3 @@
+[submodule "hdqlibrary"]
+	path = hdqlibrary
+	url = https://github.com/ansuote/hdqlibrary.git
