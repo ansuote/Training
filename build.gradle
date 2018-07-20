@@ -24,6 +24,23 @@ buildscript {
 
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
     }
+
+    subprojects {
+        project.configurations.all {
+            resolutionStrategy.eachDependency { details ->
+                if (details.requested.group == 'com.android.support'
+                        && !details.requested.name.contains('multidex')) {
+                    details.useVersion "$buildToolsVersion"
+                }
+//                if (details.requested.group == 'com.github.bumptech.glide'
+//                        && !details.requested.name.contains('multidex') ) {
+//                    details.useVersion "glide:4.2.0"
+//                }
+
+            }
+        }
+
+    }
 }
 
 allprojects {
@@ -44,7 +61,7 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     compileSdkVersion = 25
-    buildToolsVersion = '25.0.3'
+    buildToolsVersion = '25.3.1'
     minSdkVersion = 16
     targetSdkVersion = 25
 
