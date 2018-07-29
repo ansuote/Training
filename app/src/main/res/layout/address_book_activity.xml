@@ -10,31 +10,34 @@
 
     <Button
         android:id="@+id/btn_insert_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        style="@style/BaseNormalBtnStyle"
         android:text="号码插入到通讯录" />
 
     <Button
+        android:id="@+id/btn_create_group"
+        style="@style/BaseNormalBtnStyle"
+        android:text="创建群组"/>
+
+    <Button
         android:id="@+id/btn_query_group_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"
+        style="@style/BaseNormalBtnStyle"
         android:text="查看通讯录分组信息" />
 
     <Button
         android:id="@+id/btn_query_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        style="@style/BaseNormalBtnStyle"
         android:text="查询手机号码是否存在通讯录"/>
 
     <Button
+        android:id="@+id/btn_save_to_group"
+        style="@style/BaseNormalBtnStyle"
+        android:text="保存联系人到分组"/>
+
+
+
+    <Button
         android:id="@+id/btn_query_by_group_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        style="@style/BaseNormalBtnStyle"
         android:text="查询 groupId 对应的所有成员" />
 
 

@@ -12,5 +12,6 @@ class PhoneContact {
     var middlename: String = ""
     var phoneNumber: String = ""
     var phoneType: Int = 0
-    var grounpTitle: String = ""
+    var groupTitle: String = ""
+    var groupId: Long = -1L
 }

@@ -1,14 +1,20 @@
 package com.lkl.ansuote.traning.module.addressbook
 
-import android.content.ContentProviderOperation
-import android.content.ContentProviderResult
-import android.content.ContentUris
-import android.content.Context
+import android.content.*
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
+import android.text.TextUtils
 import android.util.Log
 import com.lkl.ansuote.traning.core.base.PhoneContact
+
+
+
+
+
+
+
+
 
 
 
@@ -50,12 +56,26 @@ object AddressBookUtil {
      * 判断手机号码是否存在通讯录里面
      */
     fun isPhoneExist(context: Context, phone: String): Boolean {
+        return getContractId(context,phone) != -1L
+    }
+
+    /**
+     * 从手机号获取联系人id
+     */
+    fun getContractId(context: Context, phone: String): Long {
         val cursor = context?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",
                 arrayOf(phone), null)
-        cursor.let {
-            return it?.count!! > 0
+        var contactId = -1L
+        cursor?.let {
+            while (it.moveToNext()) {
+                contactId = it.getLong(it.getColumnIndex(ContactsContract.Contacts._ID))
+                break
+            }
+            it.close()
         }
+
+        return contactId
     }
 
     /**
@@ -95,6 +115,15 @@ object AddressBookUtil {
                         .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, "")
                         .withYieldAllowed(true).build())
 
+                //关联群组和成员，外面必须定义 groupId
+                if (-1L != contact.groupId) {
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                            .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE,
+                                    ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, contact.groupId)
+                            .withYieldAllowed(true).build())
+                }
             }
             try {
                 context.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
@@ -159,7 +188,7 @@ object AddressBookUtil {
     /**
      * 查询 groupId 对应的所有成员
      */
-    fun getMemberForGroupId(context: Context, groupId: String){
+    fun getMemberForGroupId(context: Context, groupId: Long){
         // To query all contacts in a group
 
         // First, query the raw_contact_ids of all the contacts in the group
@@ -205,4 +234,84 @@ object AddressBookUtil {
         groupContactCursor.close()
     }
 
+    /**
+     * 创建一个群组
+     */
+//    fun createGroup(context: Context, groupTitle: String) {
+//        context.contentResolver.insert(ContactsContract.Groups.CONTENT_URI, ContentValues().apply {
+//            this.put(ContactsContract.Groups.TITLE, groupTitle)
+//        })
+//    }
+
+
+    /**
+     * 创建群组
+     * 如果之前没有创建，则创建群组
+     *
+     * @return int
+     */
+    fun createGroup(context: Context, title: String): Long {
+        if (TextUtils.isEmpty(title)) {
+            return -1L
+        }
+        var gId = getGroupByTitle(context, title)
+        if (gId == -1L) {
+            val values = ContentValues()
+            values.put(ContactsContract.Groups.TITLE, title)
+            //必须进行账户同步
+            values.put(ContactsContract.Groups.SHOULD_SYNC, true)
+            val uri = context.contentResolver.insert(ContactsContract.Groups.CONTENT_URI, values)
+            gId = ContentUris.parseId(uri)
+        }
+        return gId
+    }
+
+
+    /**
+     * 根据组的名称查询组
+     *
+     * @return int
+     */
+    fun getGroupByTitle(context: Context, title: String): Long {
+        var id = -1L
+        val cursor = context.contentResolver.query(
+                ContactsContract.Groups.CONTENT_URI,
+                arrayOf(ContactsContract.Groups._ID),
+                ContactsContract.Groups.TITLE + "='" + title + "'", null, null)
+        if (cursor.moveToNext()) {
+            id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Groups._ID))
+        }
+        cursor.close()
+        return id
+    }
+
+    /**
+     * 保存联系人到群组 (没有效果，不能加入到群组，必须采用批量插入的方式)
+     * @Deprecated@param groupId
+     * @param contactId
+     */
+    fun saveToGroup(context: Context, groupId: Long?, contactId: Long?) {
+//        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, ContentValues().apply {
+//            put(ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID, contactId)
+//            put(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, groupId)
+//            put(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+//        })
+
+        val values = ContentValues()
+        values.put(ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID, contactId)
+        values.put(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, groupId)
+        values.put(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, values)
+    }
+
+    /**
+     * 从群组里面删除联系人
+     */
+    fun deleteFromGroup(context: Context, groupId: Long?, contactId: Long?) {
+        context.contentResolver.delete(ContactsContract.Data.CONTENT_URI,
+                ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID + "=? and " + ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID + "=? and " + ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE + "=?",
+                arrayOf(contactId.toString(),
+                        groupId.toString(),
+                        ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE))
+    }
 }
