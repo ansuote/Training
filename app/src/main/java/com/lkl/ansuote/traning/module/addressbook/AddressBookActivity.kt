@@ -55,10 +55,7 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
             }
             btn_insert_phone -> {
                 syncContacts(this, arrayListOf<PhoneContact>().apply {
-//                    add(PhoneContact().apply { phoneNumber = "556677";  grounpTitle = "ok" })
-//                    add(PhoneContact().apply { phoneNumber = "667788";  grounpTitle = "ok" })
-//                    add(PhoneContact().apply { phoneNumber = "778899";  grounpTitle = "ok" })
-                    add(PhoneContact().apply { phoneNumber = "889900";  grounpTitle = "ok" })
+                    add(PhoneContact().apply { phoneNumber = "13580129339" })
 
 
                 })

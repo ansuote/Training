@@ -95,16 +95,6 @@ object AddressBookUtil {
                         .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, "")
                         .withYieldAllowed(true).build())
 
-                //TODO 批量同步，新增分组
-//                ops.add(ContentProviderOperation.newInsert(ContactsContract.Groups.CONTENT_URI)
-//                        //.withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
-////                        .withValue(ContactsContract.Groups._ID, 143)
-//                        .withValue(ContactsContract.Groups.TITLE, contact.contactGroupTitle)
-//                        .withValue(ContactsContract.Groups.GROUP_VISIBLE, true)
-//                        .withValue(ContactsContract.Groups.ACCOUNT_NAME, getDefaultAccountNameAndType(context)[0])
-//                        .withValue(ContactsContract.Groups.ACCOUNT_TYPE, getDefaultAccountNameAndType(context)[1])
-//                        .withYieldAllowed(true).build())
-
             }
             try {
                 context.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
