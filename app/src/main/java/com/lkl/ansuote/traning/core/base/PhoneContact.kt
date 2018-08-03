@@ -14,4 +14,8 @@ class PhoneContact {
     var phoneType: Int = 0
     var groupTitle: String = ""
     var groupId: Long = -1L
+    /**
+     * 备注
+     */
+    var note: String = ""
 }

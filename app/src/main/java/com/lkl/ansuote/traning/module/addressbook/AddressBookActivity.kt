@@ -55,9 +55,9 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
             }
             btn_insert_phone -> {
                 syncContacts(this, arrayListOf<PhoneContact>().apply {
-                    add(PhoneContact().apply { phoneNumber = "9090111"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST)})
-                    add(PhoneContact().apply { phoneNumber = "8080111"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST) })
-                    add(PhoneContact().apply { phoneNumber = "13580129339"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST) })
+                    add(PhoneContact().apply { note = "note1233"; phoneNumber = "0011223"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST)})
+                    //add(PhoneContact().apply { note = "note2"; phoneNumber = "8080111"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST) })
+                    //add(PhoneContact().apply { note = "note3"; phoneNumber = "13580129339"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST) })
                 })
             }
             btn_query_by_group_id -> {

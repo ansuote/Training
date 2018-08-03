@@ -119,11 +119,17 @@ object AddressBookUtil {
                 if (-1L != contact.groupId) {
                     ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
-                            .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE,
-                                    ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
                             .withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, contact.groupId)
                             .withYieldAllowed(true).build())
                 }
+
+                //备注
+                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                        .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
+                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
+                        .withYieldAllowed(true).build())
             }
             try {
                 context.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
@@ -233,16 +239,6 @@ object AddressBookUtil {
         }
         groupContactCursor.close()
     }
-
-    /**
-     * 创建一个群组
-     */
-//    fun createGroup(context: Context, groupTitle: String) {
-//        context.contentResolver.insert(ContactsContract.Groups.CONTENT_URI, ContentValues().apply {
-//            this.put(ContactsContract.Groups.TITLE, groupTitle)
-//        })
-//    }
-
 
     /**
      * 创建群组
