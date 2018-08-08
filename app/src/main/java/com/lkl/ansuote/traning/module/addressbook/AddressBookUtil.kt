@@ -3,10 +3,21 @@ package com.lkl.ansuote.traning.module.addressbook
 import android.content.*
 import android.net.Uri
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.text.TextUtils
 import android.util.Log
 import com.lkl.ansuote.traning.core.base.PhoneContact
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -79,9 +90,188 @@ object AddressBookUtil {
     }
 
     /**
-     * 批量同步数据到通讯录
+     * 从手机号获取联系人id
+     * @return Contacts._ID
      */
-    fun syncContacts(context: Context, contactsList: List<PhoneContact>) {
+    fun findFirstContactByPhoneOrName(context: Context, phone: String, displayName: String): Long {
+        val cursor = context?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.NUMBER + " = ? or " +
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
+                arrayOf(phone, displayName), null)
+        var contactId = -1L
+        cursor?.let {
+            while (it.moveToNext()) {
+                contactId = it.getLong(it.getColumnIndex(ContactsContract.Contacts._ID))
+                break
+            }
+            it.close()
+        }
+
+        return contactId
+    }
+
+
+    /**
+     * 修改联系人信息
+     */
+    fun update(context: Context?, rawContactId: Long, phoneContact: PhoneContact): Boolean {
+        if (null == context) {
+            return false
+        }
+
+        val values = ContentValues()
+        values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneContact.phoneNumber)
+        //values.put(Phone.TYPE, Phone.TYPE_MOBILE)
+        //values.put(Phone.DISPLAY_NAME, phoneContact.displayName)
+        //values.put(Phone.)
+        val where = (ContactsContract.Data.RAW_CONTACT_ID + "=? AND " + ContactsContract.Data.MIMETYPE + "=?")
+        val selectionArgs = arrayOf(rawContactId.toString(), Phone.CONTENT_ITEM_TYPE)
+        val result = context.contentResolver.update(ContactsContract.Data.CONTENT_URI, values,
+                where, selectionArgs)
+        return result != -1
+    }
+
+
+    /**
+     * 获取 RawContactId （匹配姓名或者号码）
+     */
+    fun getRawContactId(context: Context, phone: String, displayName: String): Long {
+        val cursor = context?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.NUMBER + " = ? or " +
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
+                arrayOf(phone, displayName), null)
+        if (null != cursor && cursor.moveToFirst()) {
+            return cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID))
+        } else {
+            return 0L
+        }
+    }
+
+    /**
+     * 同步联系人（之前有则更新，没有则新增）
+     */
+    fun syncContacts(context: Context?, contactsList: List<PhoneContact>) {
+        if (null == context) return
+
+        val contactsListSize = contactsList.size
+        val unitLength = 400 //large insert will cause binder data overflow.
+        var syncedCount = 0
+        while (syncedCount < contactsListSize) {
+            val syncLength = if (contactsListSize - syncedCount < unitLength) contactsListSize - syncedCount else unitLength
+            val ops = arrayListOf<ContentProviderOperation>()
+            for (index in contactsList.indices) {
+                val contact = contactsList[index]
+                val rawContactInsertIndex = ops.size
+
+                var rawContactId = getRawContactId(context, contact.phoneNumber, contact.displayName)
+                if (0L == rawContactId) {
+                    //说明之前没有该联系人，必须批量插入
+
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                            .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                            .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                            .withYieldAllowed(true).build())
+
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                            .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contact.displayName)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, contact.lastName)
+                            .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, contact.firstName)
+                            .withValue(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME, contact.middlename)
+                            .withYieldAllowed(true).build())
+
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contact.phoneNumber)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, contact.phoneType)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, "")
+                            .withYieldAllowed(true).build())
+
+                    //关联群组和成员，外面必须定义 groupId
+                    if (-1L != contact.groupId) {
+                        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                                .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+                                .withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, contact.groupId)
+                                .withYieldAllowed(true).build())
+                    }
+
+                    //备注
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                            .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
+                            //.withYieldAllowed(true)
+                            .build())
+
+                } else {
+                    //之前存在，则批量更新
+                    val where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?"
+
+                    val phoneParams = arrayOf(rawContactId.toString(), Phone.CONTENT_ITEM_TYPE)
+                    val displayNameParams = arrayOf(rawContactId.toString(), ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                    val noteParams = arrayOf(rawContactId.toString(), ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
+
+                    // 更新电话号码
+                    ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            //.withSelection(ContactsContract.Data.RAW_CONTACT_ID + "=?" + " AND " + ContactsContract.Data.MIMETYPE + " = ?" + " AND " + Phone.TYPE + "=?", arrayOf(id.toString(), null, null))
+                            .withSelection(where, phoneParams)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contact.phoneNumber)
+                            .withYieldAllowed(true).build())
+
+                    // 更新姓名
+                    ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            .withSelection(where, displayNameParams)
+                            .withValue(StructuredName.DISPLAY_NAME, contact.displayName)
+                            .withYieldAllowed(true).build())
+
+                    // 更新note
+                    ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            .withSelection(where, noteParams)
+                            .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
+                            //.withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
+                            //.withYieldAllowed(true)
+                            .build())
+
+
+                    // 更新email
+                    /*ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            .withSelection(ContactsContract.Data.RAW_CONTACT_ID + "=?" + " AND " + ContactsContract.Data.MIMETYPE + " = ?" + " AND " + ContactsContract.CommonDataKinds.Email.TYPE + "=?", arrayOf(String.valueOf(id), ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE, (ContactsContract.CommonDataKinds.Email.TYPE_HOME).toString()))
+                            .withValue(ContactsContract.CommonDataKinds.Email.DATA, email).build())*/
+
+                    // 更新网站
+                    /*ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            .withSelection(ContactsContract.Data.RAW_CONTACT_ID + "=?" + " AND " + ContactsContract.Data.MIMETYPE + " = ?", arrayOf(String.valueOf(id), ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE))
+                            .withValue(ContactsContract.CommonDataKinds.Website.URL, website).build())*/
+
+                    // 更新公司
+                    /*ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            .withSelection(ContactsContract.Data.RAW_CONTACT_ID + "=?" + " AND " + ContactsContract.Data.MIMETYPE + " = ?", arrayOf(String.valueOf(id), ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE))
+                            .withValue(ContactsContract.CommonDataKinds.Organization.COMPANY, organization).build())*/
+                }
+
+            }
+
+            try {
+                context.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
+                ops.clear()
+
+                syncedCount = syncLength
+            } catch (e: Exception) {
+                Log.i("lkl", "updateContacts -- 报错 -- " + e.toString())
+                e.printStackTrace()
+                return
+            }
+        }
+    }
+
+
+    /**
+     * 批量同步数据到通讯录(新增数据)
+     */
+    fun addContacts(context: Context?, contactsList: List<PhoneContact>) {
         if (null == context) return
 
         val contactsListSize = contactsList.size
@@ -101,6 +291,7 @@ object AddressBookUtil {
 
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                        .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contact.displayName)
                         .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
                         .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, contact.lastName)
                         .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, contact.firstName)
@@ -125,11 +316,11 @@ object AddressBookUtil {
                 }
 
                 //备注
-                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
-                        .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
-                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
-                        .withYieldAllowed(true).build())
+//                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+//                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+//                        .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
+//                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
+//                        .withYieldAllowed(true).build())
             }
             try {
                 context.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
@@ -137,7 +328,7 @@ object AddressBookUtil {
 
                 syncedCount = syncLength
             } catch (e: Exception) {
-                Log.i("lkl", "syncContacts -- 报错 -- " + e.toString())
+                Log.i("lkl", "addContacts -- 报错 -- " + e.toString())
                 e.printStackTrace()
                 return
             }
@@ -282,10 +473,11 @@ object AddressBookUtil {
     }
 
     /**
-     * 保存联系人到群组 (没有效果，不能加入到群组，必须采用批量插入的方式)
+     * 保存联系人到群组
      * @Deprecated@param groupId
      * @param contactId
      */
+    @Deprecated(message = "没有效果，不能加入到群组，必须采用批量插入的方式")
     fun saveToGroup(context: Context, groupId: Long?, contactId: Long?) {
 //        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, ContentValues().apply {
 //            put(ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID, contactId)

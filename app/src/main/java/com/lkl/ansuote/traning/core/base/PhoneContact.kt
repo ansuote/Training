@@ -7,6 +7,7 @@ package com.lkl.ansuote.traning.core.base
  * @date 24/07/2018
  */
 class PhoneContact {
+    var displayName: String = ""
     var lastName: String = ""
     var firstName: String = ""
     var middlename: String = ""

@@ -11,7 +11,6 @@ import com.lkl.ansuote.traning.module.addressbook.AddressBookUtil.getContractId
 import com.lkl.ansuote.traning.module.addressbook.AddressBookUtil.getGroupByTitle
 import com.lkl.ansuote.traning.module.addressbook.AddressBookUtil.getGroups
 import com.lkl.ansuote.traning.module.addressbook.AddressBookUtil.isPhoneExist
-import com.lkl.ansuote.traning.module.addressbook.AddressBookUtil.syncContacts
 import kotlinx.android.synthetic.main.address_book_activity.*
 
 
@@ -28,7 +27,7 @@ import kotlinx.android.synthetic.main.address_book_activity.*
  */
 class AddressBookActivity : BaseActivity(), View.OnClickListener{
     var hasPermission = false
-    val GROUP_TITLE_TEST = "test"
+    val GROUP_TITLE_TEST = "Training分组"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +43,15 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
         }
 
         when (v) {
+            btn_create_group ->{
+                val groupId = AddressBookUtil.createGroup(this, GROUP_TITLE_TEST)
+                Log.i("lkl", "创建分组 groupId = $groupId")
+            }
+            btn_insert_phone -> {
+                AddressBookUtil.addContacts(this, arrayListOf<PhoneContact>().apply {
+                    add(PhoneContact().apply {displayName = "测试号码2"; note = "note1233"; phoneNumber = "138000002"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST)})
+                })
+            }
             btn_query_group_data -> {
                 val groups = getGroups(this)
                 Log.i("lkl", "groups = $groups")
@@ -53,19 +61,43 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                 var found = isPhoneExist(this, "13580129339")
                 Log.i("lkl", "found = $found")
             }
-            btn_insert_phone -> {
-                syncContacts(this, arrayListOf<PhoneContact>().apply {
-                    add(PhoneContact().apply { note = "note1233"; phoneNumber = "0011223"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST)})
-                    //add(PhoneContact().apply { note = "note2"; phoneNumber = "8080111"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST) })
-                    //add(PhoneContact().apply { note = "note3"; phoneNumber = "13580129339"; groupId = getGroupByTitle(this@AddressBookActivity, GROUP_TITLE_TEST) })
+
+            btn_query_phone_or_name -> {
+                var id = AddressBookUtil.findFirstContactByPhoneOrName(this, "13580129339", "Apple2")
+                Log.i("lkl", "id = $id")
+            }
+
+            btn_update -> {
+//                AddressBookUtil.update(this,
+//                        AddressBookUtil.findFirstContactByPhoneOrName(this, "121", "AS"),
+//                        PhoneContact().apply {
+//                            this.phoneNumber = "135801293393323"
+//                            this.displayName = "AS修改"
+//                })
+
+                AddressBookUtil.syncContacts(this, mutableListOf<PhoneContact>().apply {
+                    add(PhoneContact().apply {
+                        this.displayName = "卡丽丽"
+                        this.phoneNumber = "2223213999"
+                        this.note = "ACC_note"
+                    })
+
+                    add(PhoneContact().apply {
+                        this.displayName = "AS100"
+                        this.phoneNumber = "221999"
+                        this.note = "ACC_note"
+                    })
+                    add(PhoneContact().apply {
+                        this.displayName = "AS200"
+                        this.phoneNumber = "222999"
+                        this.note = "ACC_note"
+                    })
                 })
             }
+
             btn_query_by_group_id -> {
                 AddressBookUtil.getMemberForGroupId(this, getGroupByTitle(this, GROUP_TITLE_TEST))
 
-            }
-            btn_create_group ->{
-                AddressBookUtil.createGroup(this, GROUP_TITLE_TEST)
             }
 
             btn_save_to_group->{
