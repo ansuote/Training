@@ -39,7 +39,7 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"    // kapt 代替 annotationProcessor
-    compileOnly "org.glassfish:javax.annotation:$rootProject.javaxVersion"
+    compileOnly "org.glassfish:javax.annotation:$rootProject.javaxVersion"  //仅在编译的时候使用，打包的时候不引入
 
 }
 repositories {
