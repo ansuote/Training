@@ -23,6 +23,9 @@
         <activity android:name=".module.share.ShareActivity">
         </activity>
         <activity android:name=".module.addressbook.AddressBookActivity">
+        </activity>
+
+        <activity android:name=".module.dagger.DaggerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

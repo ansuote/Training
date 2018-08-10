@@ -227,7 +227,7 @@ object AddressBookUtil {
                             .withValue(StructuredName.DISPLAY_NAME, contact.displayName)
                             .withYieldAllowed(true).build())
 
-                    // 更新note
+                    // 更新note (如果是手机新增联系人，并且该联系人没有填备注，这种情况下更新note接口为无效)
                     ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                             .withSelection(where, noteParams)
                             .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
