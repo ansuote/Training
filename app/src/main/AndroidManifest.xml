@@ -26,6 +26,10 @@
         </activity>
 
         <activity android:name=".module.dagger.DaggerActivity">
+
+        </activity>
+
+        <activity android:name=".module.rxtest.RxTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
