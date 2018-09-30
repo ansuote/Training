@@ -50,5 +50,9 @@
         style="@style/BaseNormalBtnStyle"
         android:text="查询 groupId 对应的所有成员" />
 
+    <Button
+        android:id="@+id/btn_get_group_row_id"
+        style="@style/BaseNormalBtnStyle"
+        android:text="获取 groupRowId"/>
 
 </LinearLayout>

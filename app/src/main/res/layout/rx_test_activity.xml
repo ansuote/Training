@@ -28,6 +28,10 @@
             style="@style/BaseNormalBtnStyle"
             android:text="zip 并发执行"/>
 
+        <Button
+            android:id="@+id/btn_flatmap"
+            style="@style/BaseNormalBtnStyle"
+            android:text="flatmap 解决嵌套"/>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

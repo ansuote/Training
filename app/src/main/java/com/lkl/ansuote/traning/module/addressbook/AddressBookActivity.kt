@@ -76,21 +76,26 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
 //                })
 
                 AddressBookUtil.syncContacts(this, mutableListOf<PhoneContact>().apply {
+                    val groupId = AddressBookUtil.createGroup(this@AddressBookActivity, GROUP_TITLE_TEST)
+
                     add(PhoneContact().apply {
                         this.displayName = "卡丽丽"
                         this.phoneNumber = "2223213999"
                         this.note = "ACC_note"
+                        this.groupId = groupId
                     })
 
                     add(PhoneContact().apply {
                         this.displayName = "AS100"
                         this.phoneNumber = "221999"
                         this.note = "ACC_note"
+                        this.groupId = groupId
                     })
                     add(PhoneContact().apply {
                         this.displayName = "AS200"
                         this.phoneNumber = "222999"
                         this.note = "ACC_note"
+                        this.groupId = groupId
                     })
                 })
             }
@@ -104,6 +109,11 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                 AddressBookUtil.saveToGroup(this,
                         AddressBookUtil.createGroup(this, GROUP_TITLE_TEST),
                         getContractId(this, "13580129339"))
+            }
+
+            btn_get_group_row_id -> {
+//                val groupRowId = AddressBookUtil.getGroupRowId(this, AddressBookUtil.getContractId(this, "221999"))
+//                Log.i("lkl", "groupRowId = $groupRowId")
             }
         }
     }

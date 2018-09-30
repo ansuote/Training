@@ -6,8 +6,10 @@ import com.lkl.ansuote.hdqlibrary.base.BaseActivity
 import com.lkl.ansuote.traning.R
 import com.orhanobut.logger.Logger
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.rx_test_activity.*
 
@@ -42,6 +44,10 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
             btn_zip -> {
                 zip()
             }
+
+            btn_flatmap -> {
+                flatmap()
+            }
         }
     }
 
@@ -60,6 +66,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
                 }
                 .map {
                     "$it-- 在这里增加了 Map 操作"
+                    //0 // 直接转化类型
                 }
                 .observeOn(AndroidSchedulers.mainThread()) //指定后续事件的线程，可以多次调度
                 .doOnSubscribe {
@@ -124,7 +131,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
     /**
      * 模拟获取一个 URL
      */
-    fun getUserUrl():String {
+    private fun getUserUrl():String {
         Logger.i("进入 getUserUrl --- currentThread = " + Thread.currentThread().toString())
         Thread.sleep(3 * 1000)
 
@@ -134,7 +141,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
     /**
      * 模拟获取一个 urserToken
      */
-    fun getUserToken(url: String?): String {
+    private fun getUserToken(url: String?): String {
         Logger.i("进入 getUserToken --- currentThread = " + Thread.currentThread().toString())
 
         Thread.sleep(5 * 1000)
@@ -153,7 +160,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
      * mergeDelayError操作符类似于merge操作符，唯一不同就是如果在合并途中出现错误，不会立即发射错误通知，
      * 而是保留错误直到合并后的Observable将所有的数据发射完成，此时才会将onError提交给订阅者。
      */
-    fun merge() {
+    private fun merge() {
         Observable.merge(getTitleDataObservable(), getContentDataObservable())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -172,7 +179,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    fun getTitleDataObservable(): Observable<TitleData>{
+    private fun getTitleDataObservable(): Observable<TitleData>{
         return Observable.create<TitleData> {
 
             it.onNext(getTitleData())
@@ -180,7 +187,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
         }.subscribeOn(Schedulers.newThread())
     }
 
-    fun getContentDataObservable(): Observable<ContentData> {
+    private fun getContentDataObservable(): Observable<ContentData> {
         return Observable.create<ContentData> {
             it.onNext(getContentData())
             it.onComplete()
@@ -190,7 +197,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
     /**
      * 模拟获取标题数据
      */
-    fun getTitleData(): TitleData {
+    private fun getTitleData(): TitleData {
         Logger.i("进入 getTitleData --- currentThread = " + Thread.currentThread().toString())
 
         Thread.sleep(5 * 1000)
@@ -200,7 +207,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
     /**
      * 模拟获取标题数据
      */
-    fun getContentData(): ContentData {
+    private fun getContentData(): ContentData {
         Logger.i("进入 getContentData --- currentThread = " + Thread.currentThread().toString())
         Thread.sleep(6 * 1000)
         return ContentData("Content1")
@@ -224,7 +231,7 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
      * 合并成一个操作符，再发射。
      * 只调用一次 onNext
      */
-    fun zip() {
+    private fun zip() {
 //        Observable.zip(getTitleDataObservable(), getContentDataObservable(), object : BiFunction<TitleData, ContentData, String> {
 //            override fun apply(t1: TitleData, t2: ContentData): String {
 //                Logger.i("lkl")
@@ -255,6 +262,32 @@ class RxTestActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+    /**
+     * 返回一个 Observable
+     * 实现嵌套请求
+     * 无序，（有序可以用 concatMap 代替）
+     */
+    private fun flatmap() {
+        Observable.create<List<TitleData>> {
 
+            it.onNext(mutableListOf<TitleData>().apply {
+                add(TitleData("title_flatmap_01"))
+                add(TitleData("title_flatmap_02"))
+            })
+            it.onComplete()
+
+        }.flatMap(Function<List<TitleData>, ObservableSource<TitleData>> {
+            Observable.fromIterable(it) //遍历发射
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Logger.i("subscribe = ${it.title}")
+                },{
+                    Logger.i("onError = $it")
+                },{
+                    Logger.i("onComplete")
+                })
+    }
 
 }

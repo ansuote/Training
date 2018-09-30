@@ -74,9 +74,12 @@ object AddressBookUtil {
      * 从手机号获取联系人id
      */
     fun getContractId(context: Context, phone: String): Long {
-        val cursor = context?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+        val cursor = context?.contentResolver?.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,
                 ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",
-                arrayOf(phone), null)
+                arrayOf(phone),
+                null)
         var contactId = -1L
         cursor?.let {
             while (it.moveToNext()) {
@@ -141,11 +144,27 @@ object AddressBookUtil {
                         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
                 arrayOf(phone, displayName), null)
         if (null != cursor && cursor.moveToFirst()) {
-            return cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID))
+            val rawContactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID))
+            cursor.close()
+            return rawContactId
         } else {
             return 0L
         }
     }
+
+    /**
+     * 从数据库获取号码对应的信息
+     */
+//    private fun getContractBeanForDb(phone: String): EcallContacts? {
+//        var bean: EcallContacts? = null
+//        val listLazy = App.daoSession?.ecallContactsDao?.queryBuilder()?.listLazy()
+//        bean = listLazy?.find { it.contactNumber == phone }
+//        if (listLazy?.isClosed == false) {
+//            listLazy.close()
+//        }
+//
+//        return bean
+//    }
 
     /**
      * 同步联系人（之前有则更新，没有则新增）
@@ -164,6 +183,8 @@ object AddressBookUtil {
                 val rawContactInsertIndex = ops.size
 
                 var rawContactId = getRawContactId(context, contact.phoneNumber, contact.displayName)
+
+                //var dbBean = getContractBeanForDb(contact.contactNumber)
                 if (0L == rawContactId) {
                     //说明之前没有该联系人，必须批量插入
 
@@ -235,6 +256,21 @@ object AddressBookUtil {
                             //.withYieldAllowed(true)
                             .build())
 
+                    //关联群组和成员，外面必须定义 groupId
+                    /*if (-1L != contact.groupId)  {
+                        if (null != dbBean && !dbBean.contactGroupId.isNullOrBlank()) {
+                            ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                                    .withSelection(where, groupParams)
+                                    .withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, contact.contactGroupId)
+                                    .withYieldAllowed(true).build())
+                        } else {
+                            ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                                    .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+                                    .withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, contact.contactGroupId)
+                                    .withValue(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+                                    .withYieldAllowed(true).build())
+                        }
+                    }*/
 
                     // 更新email
                     /*ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
@@ -260,7 +296,7 @@ object AddressBookUtil {
 
                 syncedCount = syncLength
             } catch (e: Exception) {
-                Log.i("lkl", "updateContacts -- 报错 -- " + e.toString())
+                //Log.i("lkl", "updateContacts -- 报错 -- " + e.toString())
                 e.printStackTrace()
                 return
             }
@@ -310,17 +346,18 @@ object AddressBookUtil {
                 if (-1L != contact.groupId) {
                     ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
-                            .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE,
+                                    ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
                             .withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, contact.groupId)
                             .withYieldAllowed(true).build())
                 }
 
                 //备注
-//                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-//                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
-//                        .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
-//                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
-//                        .withYieldAllowed(true).build())
+                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                        .withValue(ContactsContract.CommonDataKinds.Note.NOTE, contact.note)
+                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
+                        .withYieldAllowed(true).build())
             }
             try {
                 context.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
@@ -328,7 +365,7 @@ object AddressBookUtil {
 
                 syncedCount = syncLength
             } catch (e: Exception) {
-                Log.i("lkl", "addContacts -- 报错 -- " + e.toString())
+                //Log.i("lkl", "addContacts -- 报错 -- " + e.toString())
                 e.printStackTrace()
                 return
             }
@@ -414,7 +451,8 @@ object AddressBookUtil {
             contactCursor.moveToNext()
             //Log.e("lkl", "Member name is: " + contactCursor.getString(1) + " " + contactCursor.getString(2))
             Log.i("lkl", "Member name is: "
-                    + contactCursor.getString(1)
+                    + contactCursor.getString(0)
+                    + "; " + contactCursor.getString(1)
                     + "; " + contactCursor.getString(2)
                     + "; " + contactCursor.getString(3)
                     + "; " + contactCursor.getString(4)
