@@ -22,6 +22,9 @@ public class Constants {
         @interface GenderType {}
     }
 
+    public static final String URL_PREFIX = "/com/lkl/ansuote/training/";
+    public static final String URL_AROUTER_JUMP_ACTIVITY = URL_PREFIX + "ARouterJumpActivity";
+    public static final String URL_AROUTER_TEST_ACTIVITY = URL_PREFIX + "ARouterTestActivity";
 
 
 }

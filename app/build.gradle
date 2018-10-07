@@ -16,11 +16,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-android.txt', 'proguard-rules.pro'//, 'tinker_proguard.pro'
+
         }
     }
 }
@@ -40,6 +48,12 @@ dependencies {
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"    // kapt 代替 annotationProcessor
     compileOnly "org.glassfish:javax.annotation:$rootProject.javaxVersion"  //仅在编译的时候使用，打包的时候不引入
+
+    //arouter
+    implementation "com.alibaba:arouter-api:$rootProject.arouterApiVersion"
+    annotationProcessor "com.alibaba:arouter-compiler:$rootProject.arouterCompilerVersion"
+
+    implementation project(":module")
 
 }
 repositories {

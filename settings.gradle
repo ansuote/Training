@@ -1,1 +1,1 @@
-include ':app', ':hdqlibrary', ':moudle'
+include ':app', ':hdqlibrary', ':module'

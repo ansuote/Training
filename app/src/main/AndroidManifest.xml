@@ -23,19 +23,20 @@
         <activity android:name=".module.share.ShareActivity">
         </activity>
         <activity android:name=".module.addressbook.AddressBookActivity">
+        </activity>
+
+        <activity android:name=".module.dagger.DaggerActivity">
+        </activity>
+
+        <activity android:name=".module.rxtest.RxTestActivity">
+        </activity>
+
+        <activity android:name=".module.arouter.ARouterTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-
-        <activity android:name=".module.dagger.DaggerActivity">
-
-        </activity>
-
-        <activity android:name=".module.rxtest.RxTestActivity">
-
         </activity>
     </application>
 

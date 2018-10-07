@@ -1,4 +1,4 @@
-package com.lkl.ansuote.moudle;
+package com.lkl.ansuote.module;
 
 import org.junit.Test;
 
