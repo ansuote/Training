@@ -55,6 +55,8 @@ dependencies {
 
     implementation project(":module")
 
+    implementation "com.github.huangyanbin:SmartTable:$rootProject.smartTableVersion"
+
 }
 repositories {
     mavenCentral()
