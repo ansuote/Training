@@ -1,3 +1,9 @@
 [submodule "hdqlibrary"]
 	path = hdqlibrary
 	url = https://github.com/ansuote/hdqlibrary.git
+[submodule "modulemodel"]
+	path = modulemodel
+	url = git@github.com:ansuote/modulemodel.git
+[submodule "modulebussiness"]
+	path = modulebussiness
+	url = git@github.com:ansuote/modulebussiness.git
