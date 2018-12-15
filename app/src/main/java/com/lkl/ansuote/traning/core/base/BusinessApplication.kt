@@ -6,6 +6,9 @@ import android.support.multidex.MultiDex
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.Utils
 import com.lkl.ansuote.hdqlibrary.base.AppStatusTracker
+import com.lkl.ansuote.modulebussiness.Constants
+import com.lkl.ansuote.moduleframework.base.MoudleFramework
+import com.lkl.ansuote.moudlecommon.CommonApp
 import com.lkl.ansuote.traning.BuildConfig
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -20,8 +23,10 @@ class BusinessApplication : Application(){
 
     override fun onCreate() {
         super.onCreate()
+        CommonApp.init(this)
+        MoudleFramework.init(this, Constants.DB_NAME)
         initLibraryApplication()
-        initARouter();
+        initARouter()
     }
 
     private fun initARouter() {
