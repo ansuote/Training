@@ -6,32 +6,29 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/layout_other_notify_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_submit"
+        android:layout_alignParentTop="true"
         android:fillViewport="true"
         android:overScrollMode="never"
-        android:layout_alignParentTop="true"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:orientation="vertical">
-
-            <include layout="@layout/base_include_line_default_horizontal_8dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#333333"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="@string/my_remind_other_title"
-                    android:textColor="@color/base_text_normal_level_one"/>
+                    android:padding="16dp"/>
 
                 <EditText
                     android:id="@+id/edit_title"
@@ -39,92 +36,71 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="top"
-                    android:hint="@string/my_remind_other_title_hint"
                     android:maxLength="25"
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:textColor="@color/base_text_normal_level_three"
-                    android:textColorHint="@color/base_text_normal_level_three"
                     android:textSize="14sp"/>
             </LinearLayout>
 
 
-            <include layout="@layout/base_include_line_default_horizontal_8dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#666666"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="@string/my_remind_other_time"
-                    android:textColor="@color/base_text_normal_level_one"/>
+                    android:padding="16dp"/>
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:drawableRight="@drawable/base_back_gray_icon"
                     android:gravity="top"
-                    android:hint="@string/my_remind_other_time_hint"
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:textColor="@color/base_text_normal_level_three"
-                    android:textColorHint="@color/base_text_normal_level_three"
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <include layout="@layout/base_include_line_default_horizontal_8dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
+                android:background="#999999"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="top"
-                    android:padding="16dp"
-                    android:text="@string/my_remind_other_remark"
-                    android:textColor="@color/base_text_normal_level_one"/>
+                    android:padding="16dp"/>
 
 
-                <com.xxjr.cfs.library.widget.RemainEditText
+                <EditText
                     android:id="@+id/edit_remark"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginRight="16dp"
-                    android:minHeight="100dp"
-                    app:background="@color/base_default_bg"
-                    app:hint="@string/my_remind_other_remark_hint"
-                    app:maxLength="500"
-                    app:paddingBottom="4dp"
-                    app:paddingLeft="8dp"
-                    app:paddingRight="16dp"
-                    app:paddingTop="4dp"
-                    app:textColor="@color/base_text_normal_level_three"
-                    app:textColorHint="@color/base_text_normal_level_three"/>
+                    android:minHeight="100dp"/>
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-
     <Button
         android:id="@+id/btn_submit"
-        style="@style/LoginBtnStyle"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="32dp"

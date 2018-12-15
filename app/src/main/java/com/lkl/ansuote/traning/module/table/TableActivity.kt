@@ -7,7 +7,7 @@ import com.bin.david.form.data.style.FontStyle
 import com.blankj.utilcode.util.ConvertUtils
 import com.lkl.ansuote.hdqlibrary.base.BaseActivity
 import com.lkl.ansuote.traning.R
-import com.lkl.ansuote.traning.core.croe.bean.ReportTableBean
+import com.lkl.ansuote.traning.core.bean.ReportTableBean
 
 /**
  * Created by huangdongqiang on 2018/10/14.

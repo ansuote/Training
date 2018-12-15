@@ -11,9 +11,9 @@ import com.lkl.ansuote.modulemodel.di.module.FragmentModule
  * @author huangdongqiang
  * @date 15/12/2018
  */
-abstract class BaseMvpFragment<P : BaseFragmentPresenter<*>?> : BusinessMvpFragment<P, MainFComponent>(){
-    override fun getFragmentComponent(): MainFComponent {
-        return DaggerMainFComponent
+abstract class ModuleMvpFragment<P : BaseFragmentPresenter<*>?> : BusinessMvpFragment<P, ModuleFComponent>(){
+    override fun getFragmentComponent(): ModuleFComponent {
+        return DaggerModuleFComponent
                 .builder()
                 .appComponent(ModuleModel.getAppComponent())
                 .fragmentModule(FragmentModule(this))

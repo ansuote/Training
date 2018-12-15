@@ -115,6 +115,22 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
 //                val groupRowId = AddressBookUtil.getGroupRowId(this, AddressBookUtil.getContractId(this, "221999"))
 //                Log.i("lkl", "groupRowId = $groupRowId")
             }
+            btn_add_many -> {
+                Thread{
+                    AddressBookUtil.syncContacts(this, mutableListOf<PhoneContact>().apply {
+                        val groupId = AddressBookUtil.createGroup(this@AddressBookActivity, GROUP_TITLE_TEST)
+                        for (i in 0..400) {
+                            add(PhoneContact().apply {
+                                this.displayName = "ee大量测试用户--$i"
+                                this.phoneNumber = "2313123$i"
+                                this.note = "note$i"
+                                this.groupId = groupId
+                            })
+                        }
+                    })
+                }.run()
+
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.lkl.ansuote.hdqlibrary.base.BaseActivity
+import com.lkl.ansuote.modulemodel.base.ModuleModel
 import com.lkl.ansuote.traning.R
 import com.lkl.ansuote.traning.core.base.Constants
 

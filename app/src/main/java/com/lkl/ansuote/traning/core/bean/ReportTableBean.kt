@@ -1,4 +1,4 @@
-package com.lkl.ansuote.traning.core.croe.bean
+package com.lkl.ansuote.traning.core.bean
 
 import com.bin.david.form.annotation.SmartColumn
 import com.bin.david.form.annotation.SmartTable

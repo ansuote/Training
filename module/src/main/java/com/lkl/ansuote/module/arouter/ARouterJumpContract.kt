@@ -1,4 +1,4 @@
-package com.lkl.ansuote.traning.module.mvp.activity
+package com.lkl.ansuote.module.arouter
 
 import com.lkl.ansuote.hdqlibrary.mvp.IBaseActivityView
 import com.lkl.ansuote.hdqlibrary.mvp.IBasePresenter
@@ -9,13 +9,11 @@ import com.lkl.ansuote.hdqlibrary.mvp.IBasePresenter
  * @author huangdongqiang
  * @date 15/12/2018
  */
-interface MvpTestContract {
+interface ARouterJumpContract {
     interface View : IBaseActivityView{
 
     }
-
-    interface Presenter: IBasePresenter<View>{
+    interface Presenter: IBasePresenter<View> {
         
     }
-
 }

@@ -1,7 +1,7 @@
-package com.lkl.ansuote.traning.module.mvp
+package com.lkl.ansuote.traning.module.mvp.activity
 
 import com.lkl.ansuote.traning.R
-import com.lkl.ansuote.traning.component.BaseAppMvpActivity
+import com.lkl.ansuote.traning.component.ModuleMvpActivity
 
 /**
  *
@@ -9,7 +9,7 @@ import com.lkl.ansuote.traning.component.BaseAppMvpActivity
  * @author huangdongqiang
  * @date 15/12/2018
  */
-class MvpTestActivity : BaseAppMvpActivity<MvpTestContract.View, MvpTestPresenter>(), MvpTestContract.View {
+class MvpTestActivity : ModuleMvpActivity<MvpTestContract.View, MvpTestPresenter>(), MvpTestContract.View {
 
     override fun getContentLayoutId(): Int {
         return R.layout.mvp_test_activity

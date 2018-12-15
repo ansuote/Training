@@ -14,7 +14,7 @@ import dagger.Component
  */
 @FragmentScope
 @Component(dependencies = [AppComponent::class], modules = [FragmentModule::class])
-interface MainFComponent {
+interface ModuleFComponent {
     fun inject(fragment: MvpTestFragement)
 
 }

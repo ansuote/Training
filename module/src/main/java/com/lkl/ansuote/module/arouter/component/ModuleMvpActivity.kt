@@ -1,4 +1,4 @@
-package com.lkl.ansuote.traning.component
+package com.lkl.ansuote.module.arouter.component
 
 import com.lkl.ansuote.hdqlibrary.mvp.BasePresenter
 import com.lkl.ansuote.modulebussiness.base.BusinessMvpActivity
