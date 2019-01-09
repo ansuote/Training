@@ -112,5 +112,6 @@ ext {
     arouterCompilerVersion = '1.2.1'
     arouterRegisterVersion = '1.0.2'
     smartTableVersion = '2.2.0'
+    simpleRatingBarVersion = 'v0.1.5'
     HOST_BASE = '\"https://ansuote.github.com/\"'
 }

@@ -9,6 +9,7 @@ import com.lkl.ansuote.module.arouter.component.ModuleMvpActivity
  */
 @Route(path = "/com/lkl/ansuote/training/ARouterJumpActivity")
 class ARouterJumpActivity : ModuleMvpActivity<ARouterJumpContract.View, ARouterJumpPresenter>(), ARouterJumpContract.View {
+
     override fun initInject() {
         activityComponent.inject(this)
     }

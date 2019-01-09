@@ -40,7 +40,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":hdqlibrary")
-    implementation project(':modulemodel')
+    implementation project(":modulemodel")
     implementation project(":modulebussiness")
 
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
