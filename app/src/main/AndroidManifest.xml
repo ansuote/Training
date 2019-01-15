@@ -33,23 +33,32 @@
         </activity>
 
         <activity android:name=".module.arouter.ARouterTestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
-        <activity android:name=".module.table.TableActivity">
+        <activity android:name="com.lkl.ansuote.traning.module.widget.table.TableActivity">
 
         </activity>
 
         <activity android:name=".module.json.JsonTestActivity">
         </activity>
 
-        <activity android:name=".module.soft.SoftTestActivity"
+        <activity android:name="com.lkl.ansuote.traning.module.widget.soft.SoftTestActivity"
                   android:windowSoftInputMode="adjustResize"
                   android:configChanges="orientation|keyboardHidden">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".module.widget.edit.EditTextTestActivity"
+                android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity android:name=".module.mvp.activity.MvpTestActivity">

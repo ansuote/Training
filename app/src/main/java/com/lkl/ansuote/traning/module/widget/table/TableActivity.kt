@@ -1,4 +1,4 @@
-package com.lkl.ansuote.traning.module.table
+package com.lkl.ansuote.traning.module.widget.table
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
