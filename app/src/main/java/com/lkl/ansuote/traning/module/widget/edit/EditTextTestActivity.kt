@@ -3,6 +3,7 @@ package com.lkl.ansuote.traning.module.widget.edit
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
 import com.lkl.ansuote.hdqlibrary.base.BaseActivity
 import com.lkl.ansuote.traning.R
@@ -28,8 +29,34 @@ class EditTextTestActivity : BaseActivity(){
         //当设置属性为stateUnspecified的时候，系统是默认不弹出软键盘的，但是当有获得焦点的输入框的界面有滚动的需求的时候，会自动弹出软键盘
 
         //hideSoftInputWhenIncoming()
+
         initEditSearch()
 
+        setCanCopy(edit_other, false)
+
+        setOnlyRead(edit_other, false)
+    }
+
+    /**
+     * 是否是只读
+     *
+     * @param editText EditText
+     * @param enable Boolean
+     */
+    private fun setOnlyRead(editText: EditText, enable: Boolean) {
+        editText.isFocusable = enable
+        editText.isFocusableInTouchMode = enable
+    }
+
+    /**
+     * 设置可以复制，
+     *  false：需要在只读模式下
+     *
+     * @param editText EditText
+     * @param canCopy Boolean
+     */
+    private fun setCanCopy(editText: EditText, canCopy: Boolean) {
+        editText.setTextIsSelectable(canCopy)
     }
 
     /**
