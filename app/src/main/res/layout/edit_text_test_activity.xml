@@ -13,11 +13,7 @@
         <TextView android:layout_width="match_parent" android:layout_height="300dp"
                   android:background="@color/colorPrimary"/>
 
-        <EditText
-            android:id="@+id/edit_soft"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="默认不弹出输入法"/>
+        <!-- actionSearch : 搜索-->
 
         <EditText
             android:id="@+id/edit_search"
@@ -28,12 +24,68 @@
             android:inputType="textAutoComplete"
             android:hint="搜索输入框"/>
 
+        <!-- actionDone : 完成-->
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="imeOptions -- actionDone"
+            android:inputType="text"
+            android:imeOptions="actionDone"/>
+
+        <!-- actionNone : 空格效果-->
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="imeOptions -- actionNone"
+            android:inputType="text"
+            android:imeOptions="actionNone"/>
+
+        <!-- actionGo : 开始 -->
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="imeOptions -- actionGo"
+            android:inputType="text"
+            android:imeOptions="actionGo"/>
+
+        <!-- actionSend : 发送 -->
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="imeOptions -- actionSend"
+            android:inputType="text"
+            android:imeOptions="actionSend"/>
+
+        <!-- actionNext : 下一个 -->
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="imeOptions -- actionNext"
+            android:inputType="text"
+            android:imeOptions="actionNext"/>
+
+
+        <EditText
+            android:id="@+id/edit_soft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="默认不弹出输入法"/>
+
+
+
         <EditText
             android:id="@+id/edit_other"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="设置属性 -- 只读模式"
+            android:text="光标"
             android:hint="设置属性 -- 只读模式"/>
+
+
         <TextView android:layout_width="match_parent" android:layout_height="300dp"
                   android:background="@color/colorPrimaryDark"/>
 

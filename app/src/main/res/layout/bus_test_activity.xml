@@ -2,6 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:gravity="center">
 
+    <Button
+        android:id="@+id/btn_in_ui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="主线程发送消息 setValue"/>
+
+    <Button
+        android:id="@+id/btn_in_thread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="子线程发送消息 postValue"/>
+
+    <Button
+        android:id="@+id/btn_start_by_hand_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启手动注册 service"/>
+
+    <Button
+        android:id="@+id/btn_start_lifecycle_owner_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启自动实现 LifecycleOwner service"/>
+
+    <Button
+        android:id="@+id/btn_stop_all_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="结束所有服务"/>
+
+    <Button
+        android:id="@+id/tv_to_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送消息到 service"/>
+
+    <Button
+        android:id="@+id/tv_sticky"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="黏性广播 -- 在发送消息后，再注册"/>
+
+    <Button
+        android:id="@+id/tv_activated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试当前界面非激活状态，是否可以接收到服务。"/>
 </LinearLayout>

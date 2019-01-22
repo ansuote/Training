@@ -9,11 +9,11 @@ import com.lkl.ansuote.modulebus.LiveEventBus
 
 /**
  *
- *
+ * 手动注册/注销消息对象的服务
  * @author huangdongqiang
  * @date 22/01/2019
  */
-class BusTestService : Service() {
+class BusTestByHandService : Service() {
     private val observer: Observer<String> = Observer<String> { t -> ToastUtils.showShort(t) }
 
     override fun onCreate() {

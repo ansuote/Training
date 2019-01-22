@@ -54,6 +54,18 @@
 
         <activity android:name=".module.widget.edit.EditTextTestActivity"
                 android:windowSoftInputMode="stateHidden|adjustResize">
+
+        </activity>
+
+        <activity android:name=".module.mvp.activity.MvpTestActivity">
+
+        </activity>
+
+        <activity android:name=".module.widget.WidgetTestActivity">
+
+        </activity>
+
+        <activity android:name=".module.bus.BusTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -61,9 +73,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".module.mvp.activity.MvpTestActivity">
+        <service android:name=".module.bus.BusTestByHandService"/>
 
-        </activity>
+        <service android:name=".module.bus.BusTestAutoService"/>
     </application>
 
 </manifest>

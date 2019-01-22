@@ -20,7 +20,7 @@ buildscript {
 //        classpath "com.jakewharton:butterknife-gradle-plugin:$butterknife_version"
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
-        classpath "com.tencent.bugly:tinker-support:1.1.1"
+//        classpath "com.tencent.bugly:tinker-support:1.1.1"
 
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
@@ -63,13 +63,13 @@ task clean(type: Delete) {
 // Define versions in a single place
 ext {
     // Sdk and tools
-    compileSdkVersion = 25
-    buildToolsVersion = '25.3.1'
+    compileSdkVersion = 27
+    buildToolsVersion = '27.1.1'
     minSdkVersion = 16
-    targetSdkVersion = 25
+    targetSdkVersion = 27
 
     // App dependencies
-    supportLibraryVersion = '25.3.1'
+    supportLibraryVersion = '27.1.1'
     loggerVersion = '2.1.1'
     leakcanaryVersion = '1.5.4'
     gsonVersion = '2.8.2'
@@ -94,7 +94,7 @@ ext {
     tablayoutVersion = '2.1.2@aar'
     verticalTabLayoutVersion = '1.2.5'
     flowlayoutVersion = '1.1.2'
-    utilcodeVersion = '1.13.14' //1.9.3
+    utilcodeVersion = '1.22.1' //1.9.3
     fastjsonVersion = '1.1.64.android'
     permissionVersion = '1.1.0'
     constraintVersion = '1.0.2'
@@ -113,5 +113,6 @@ ext {
     arouterRegisterVersion = '1.0.2'
     smartTableVersion = '2.2.0'
     simpleRatingBarVersion = 'v0.1.5'
+    lifecycleVersion = '1.1.1'
     HOST_BASE = '\"https://ansuote.github.com/\"'
 }

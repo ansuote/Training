@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Traning</string>
+    <string name="widget_text_wildcard">通配符&#160;&#160;%1$s&#160;&#160;%2$d&#160;&#160;%3$.2f</string>
+    <string name="widget_text_color">&lt;font color=&quot;#F25656&quot;&gt;通过 html 改变颜色&lt;/font&gt;</string>
 </resources>

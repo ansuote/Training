@@ -1,1 +1,1 @@
-include ':app', ':hdqlibrary', ':module', ':modulebussiness', ':modulemodel'
+include ':app', ':hdqlibrary', ':module', ':modulebussiness', ':modulemodel', ':modulebus'

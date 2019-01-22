@@ -3,11 +3,18 @@ package com.lkl.ansuote.traning.module.widget.edit
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
 import com.lkl.ansuote.hdqlibrary.base.BaseActivity
+import com.lkl.ansuote.hdqlibrary.util.view.EditTextUtil.setCanCopy
+import com.lkl.ansuote.hdqlibrary.util.view.EditTextUtil.setInputExceptBlank
+import com.lkl.ansuote.hdqlibrary.util.view.EditTextUtil.setMaxSize
+import com.lkl.ansuote.hdqlibrary.util.view.EditTextUtil.setOnlyRead
+import com.lkl.ansuote.hdqlibrary.util.view.EditTextUtil.setPwdMethod
+import com.lkl.ansuote.hdqlibrary.util.view.EditTextUtil.setSelectionEnd
 import com.lkl.ansuote.traning.R
 import kotlinx.android.synthetic.main.edit_text_test_activity.*
+
+
 
 /**
  *
@@ -32,32 +39,19 @@ class EditTextTestActivity : BaseActivity(){
 
         initEditSearch()
 
+        setOnlyRead(edit_other, true)
         setCanCopy(edit_other, false)
 
-        setOnlyRead(edit_other, false)
+
+        setMaxSize(edit_other, 10)
+
+        setInputExceptBlank(edit_other)
+
+        setPwdMethod(edit_other, true)
+
+        setSelectionEnd(edit_other)
     }
 
-    /**
-     * 是否是只读
-     *
-     * @param editText EditText
-     * @param enable Boolean
-     */
-    private fun setOnlyRead(editText: EditText, enable: Boolean) {
-        editText.isFocusable = enable
-        editText.isFocusableInTouchMode = enable
-    }
-
-    /**
-     * 设置可以复制，
-     *  false：需要在只读模式下
-     *
-     * @param editText EditText
-     * @param canCopy Boolean
-     */
-    private fun setCanCopy(editText: EditText, canCopy: Boolean) {
-        editText.setTextIsSelectable(canCopy)
-    }
 
     /**
      * EditText 搜索模式，并且点击搜索按钮，回调
