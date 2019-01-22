@@ -75,7 +75,7 @@
 
         <service android:name=".module.bus.BusTestByHandService"/>
 
-        <service android:name=".module.bus.BusTestAutoService"/>
+        <service android:name=".module.bus.BusTestAutoService" tools:remove=":BusTestAutoService"/>
     </application>
 
 </manifest>

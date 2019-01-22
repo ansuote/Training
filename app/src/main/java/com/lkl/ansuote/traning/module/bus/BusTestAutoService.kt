@@ -7,7 +7,7 @@ import com.lkl.ansuote.modulebus.LiveEventBus
 
 /**
  *
- * 实现 LifecycleOwner,实现消息对象生命周期自处理的服务
+ * 实现 LifecycleOwner,实现消息对象生命周期自处理的服务  +  新开进程
  * @author huangdongqiang
  * @date 22/01/2019
  */
