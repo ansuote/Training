@@ -108,15 +108,20 @@ class BusTestActivity : BaseActivity() {
             ServiceUtils.stopService(BusTestAutoService::class.java)
         }
 
-        tv_sticky.setOnClickListener {
+        tv_sticky.setOnClickListener { _ ->
             LiveEventBus.get().with(EVENT_TEST_STICKY, String::class.java).setValue("黏性广播 -- 在发送消息后，再注册")
 
-            //在发送消息后，再注册
-            LiveEventBus.get()
-                    .with(EVENT_TEST_STICKY, String::class.java)
-                    .observeSticky(this, Observer {
-                        ToastUtils.showShort(it)
-                    })
+
+            Flowable.timer(2, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe{ _ ->
+                        //在发送消息后，再注册
+                        LiveEventBus.get()
+                                .with(EVENT_TEST_STICKY, String::class.java)
+                                .observeSticky(this, Observer {
+                                    ToastUtils.showShort(it)
+                                })
+                    }
         }
 
         tv_activated.setOnClickListener {_ ->
