@@ -1,4 +1,4 @@
-package com.lkl.ansuote.traning.module.jetpack
+package com.lkl.ansuote.traning.module.jetpack.lifecycles
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner

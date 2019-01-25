@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.databinding.ObservableMap"/>
+
+        <import type="com.lkl.ansuote.traning.core.bean.UserDataBean"/>
+
+        <!--如果存在 import 的类名相同的情况，可以使用 alias 指定别名-->
+
+        <variable name="userdatav1" type="UserDataBean"/>
+
+        <variable name="callback"
+                  type="com.lkl.ansuote.traning.module.jetpack.databing.TestClickCallback"/>
+
+        <variable name="activity"
+                  type="com.lkl.ansuote.traning.module.jetpack.databing.DataBindingTestActivity"/>
+
+        <variable name="userdatav2" type="com.lkl.ansuote.traning.core.bean.UserDataObservable"/>
+
+        <variable name="userdatav3" type="com.lkl.ansuote.traning.core.bean.UserDataFileds"/>
+
+        <!--<variable name="userdatav4" type="ObservableMap<String, Object>"/>-->
+
+        <variable name="userdatav4" type="ObservableMap"/>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(view) -> callback.onClick(view, userdatav1)}"
+                android:text="设置点击事件"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@{userdatav1.name}"
+                android:textSize="15sp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{activity::onClickBtn}"
+                android:text="改变数据值，是否会刷新"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text=" -------- 单向绑定 --------- "/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@{userdatav2.userName}"/>
+
+            <Button
+                style="@style/OriginalBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{activity::onClickBaseObservableBtn}"
+                android:text="修改 BaseObservable 的值，自动刷新"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text='@{userdatav3.userName + " ; age = " + userdatav3.age}'/>
+
+            <Button
+                style="@style/OriginalBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{activity::onClickObservableFieldBtn}"
+                android:text="修改 ObservableField 的值，自动刷"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text='@{userdatav4.userName + " ; age = " + userdatav4.age}'/>
+
+            <Button
+                style="@style/OriginalBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{activity::onClickObservableCollectionsBtn}"
+                android:text="修改 Observable collections 的值，自动刷"/>
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

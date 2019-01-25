@@ -68,7 +68,11 @@
         <activity android:name=".module.bus.BusTestActivity">
         </activity>
 
-        <activity android:name=".module.jetpack.LifecyclesTestActivity">
+        <activity android:name=".module.jetpack.lifecycles.LifecyclesTestActivity">
+
+        </activity>
+
+        <activity android:name=".module.jetpack.databing.DataBindingTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
