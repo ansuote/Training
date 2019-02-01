@@ -51,6 +51,13 @@
 #-renamesourcefileattribute SourceFile
 
 # Glide
+-keep public class * implements com.bumptech.glide.module.AppGlideModule
+-keep public class * implements com.bumptech.glide.module.LibraryGlideModule
+-keep class com.bumptech.glide.** { *; }
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
@@ -66,7 +73,7 @@
 -dontwarn com.tencent.tinker.**
 -keep class com.tencent.tinker.** { *; }
 # 如果你使用了support-v4包，你还需要配置以下混淆规则：
- -keep class android.support.**{*;}
+-keep class android.support.** { *; }
 
 
 -dontwarn com.firebase.ui.auth.data.remote.**
@@ -217,7 +224,8 @@
 -keep public class * extends com.chad.library.adapter.base.BaseViewHolder
 -keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
      <init>(...);
-}-keep class com.ch
+}
+-keep class com.ch
 
 
 -keep class com.newrelic.** { *; }
@@ -291,3 +299,7 @@ public static java.lang.String TABLENAME;
 -keep public class com.alibaba.android.arouter.routes.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 -keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
+-dontwarn javax.lang.model.element.**
+
+#========================== Android Annotations ==========================
+-dontwarn org.springframework.**

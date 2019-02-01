@@ -15,12 +15,14 @@ class UserDataObservable:BaseObservable() {
     @get:Bindable
     var userName: String ?= null
     set(value) {
-        field = value
-        //刷新单个属性
-        notifyPropertyChanged(BR.userName)
+        if (field != value) {
+            field = value
+            //刷新单个属性
+            notifyPropertyChanged(BR.userName)
 
-        //刷新全部数据
-        //notifyChange()
+            //刷新全部数据
+            //notifyChange()
+        }
     }
 
 

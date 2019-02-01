@@ -3,14 +3,24 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
+// 依赖插件脚本
+apply from: 'tinker-support.gradle'
+apply from: 'multiple-channel.gradle'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    //force-jumbo mode (when enabled it allows a larger number of strings in the dex files)
+    dexOptions {
+        jumboMode = true
     }
 
     dataBinding {
@@ -22,7 +32,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2.14"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -31,18 +41,61 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
             }
         }
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a'//, 'x86_64', 'arm64-v8a'
+        }
+
+        signingConfigs {
+            release {
+                try {
+                    def signingFile = file("../signing.properties")
+                    if (signingFile.canRead()) {
+                        Properties properties = new Properties()
+                        properties.load(new FileInputStream(signingFile))
+
+                        storeFile file(properties['STORE_FILE'])
+                        storePassword properties['STORE_PASSWORD']
+                        keyAlias properties['KEY_ALIAS']
+                        keyPassword properties['KEY_PASSWORD']
+                    } else {
+                        println "RELEASE_BUILD: signing.properties not found"
+                    }
+                } catch (e) {
+                    throw new InvalidUserDataException("You should define STORE_FILE and STORE_PASSWORD and KEY_ALIAS and KEY_PASSWORD in signing.properties.")
+                }
+            }
+
+        }
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            proguardFiles 'proguard-android.txt', 'proguard-rules.pro'//, 'tinker_proguard.pro'
+            shrinkResources false
+            //测试／正式统一一个签名
+            signingConfig signingConfigs.release
+        }
 
+        release {
+            minifyEnabled true
+            shrinkResources true
+            multiDexKeepFile file('multidex-config.txt')
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-android.txt', 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 //  lintOptions {
 //        abortOnError false
 //  }
+
+    //指定 so 位置
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -71,7 +124,15 @@ dependencies {
 
     implementation "com.github.huangyanbin:SmartTable:$rootProject.smartTableVersion"
 
-    //tinker
+    // bugly
+    implementation "com.tencent.bugly:crashreport_upgrade:$rootProject.buglyVersion"
+    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
+    implementation "com.tencent.tinker:tinker-android-lib:$rootProject.tinkerVersion"
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+    implementation "com.tencent.bugly:nativecrashreport:$rootProject.buglyNativeVersion"
+
+    //walle
+    implementation "com.meituan.android.walle:library:$rootProject.walleVersion"
 
 }
 repositories {

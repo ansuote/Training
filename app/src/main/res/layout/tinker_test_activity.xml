@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center">
+
+
+    <TextView
+        android:id="@+id/tv_tinker_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_tinker_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击会引发空指针？"/>
+
+    <Button
+        android:id="@+id/btn_tinker_channel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="多渠道打包"/>
+
+    <Button
+        android:id="@+id/btn_tinker_protected_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加固包"/>
+
+    <Button
+        android:id="@+id/btn_tinker_add_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转到新activity"/>
+
+    <Button
+        android:id="@+id/btn_tinker_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手动升级"/>
+
+    <Button
+        android:id="@+id/btn_tinker_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="清除插件包"/>
+</LinearLayout>

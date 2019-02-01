@@ -11,6 +11,12 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class Constants {
 
+    public static String BUGLY_ID = "79c5354a95";
+
+    public static String TINKER_DELEGATE_CLASS_NAME = "com.lkl.ansuote.traning.core.base.tinker.BusinessApplicationLike";
+
+    public static String TINKER_LOADER_CLASS_NAME = "com.tencent.tinker.loader.TinkerLoader";
+
     //性别
     public interface Gender{
         int UNKNOWN = 0;
