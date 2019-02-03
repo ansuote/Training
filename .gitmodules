@@ -7,3 +7,6 @@
 [submodule "modulebussiness"]
 	path = modulebussiness
 	url = git@github.com:ansuote/modulebussiness.git
+[submodule "modulebus"]
+	path = modulebus
+	url = git@github.com:ansuote/modulebus.git
