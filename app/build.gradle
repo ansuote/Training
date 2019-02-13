@@ -4,7 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
 // 依赖插件脚本
-apply from: 'tinker-support.gradle'
+if (isTinkerEnable.toBoolean()) {
+    apply from: 'tinker-support.gradle'
+}
 apply from: 'multiple-channel.gradle'
 
 android {
