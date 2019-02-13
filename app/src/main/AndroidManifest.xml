@@ -91,15 +91,14 @@
 
 
         <activity android:name=".module.widget.piechart.PieChartActivity">
-
-        </activity>
-
-        <activity android:name=".module.widget.edit.EditTextCountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity android:name=".module.widget.edit.EditTextCountActivity">
         </activity>
 
         <service android:name=".module.bus.BusTestByHandService"/>

@@ -6,7 +6,7 @@ import com.lkl.ansuote.traning.R
 
 /**
  *
- *
+ * 自定义editText实现右下角显示字数 测试练习
  * @author huangdongqiang
  * @date 12/02/2019
  */
