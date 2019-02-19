@@ -77,6 +77,7 @@ class LoginTestActivity : BaseActivity() {
             this.play(ObjectAnimator.ofFloat(view, "translationY", startY, endY))
                     .with(ObjectAnimator.ofFloat(view, "scaleX", startScale, endScale))
                     .with(ObjectAnimator.ofFloat(view, "scaleY", startScale, endScale))
+                    .with(ObjectAnimator.ofFloat(view, "alpha", 1.0f, 0.5f, 1.0f))
             this.duration = 300
             this.start()
         }
