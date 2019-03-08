@@ -99,16 +99,23 @@
         <activity android:name=".module.login.LoginTestActivity"
                   android:windowSoftInputMode="adjustResize"
                   android:configChanges="orientation|keyboardHidden">
-            <intent-filter>
-               <action android:name="android.intent.action.MAIN"/>
 
-               <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <service android:name=".module.bus.BusTestByHandService"/>
 
         <service android:name=".module.bus.BusTestAutoService" tools:remove=":BusTestAutoService"/>
+
+
+        <activity android:name=".module.service.TestServiceActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <service android:name=".module.service.TestService"/>
 
 
         <!--bugly 升级相关-->
