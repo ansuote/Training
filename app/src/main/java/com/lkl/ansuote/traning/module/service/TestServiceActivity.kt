@@ -46,9 +46,18 @@ class TestServiceActivity: BaseActivity() {
 
             }
         }
+
+
+        btn_start_activity?.setOnClickListener {
+            /**
+             * 启动本界面，尝试两个界面绑定同一个服务。
+             * 两个 activity 绑定服务，需要两个同时解绑，服务才会销毁
+             */
+            this.startActivity(Intent(this, TestServiceActivity::class.java))
+        }
     }
 
-    var mConn = object : ServiceConnection{
+    private var mConn = object : ServiceConnection{
 
         /**
          * Service的onBind方法返回值不为null时，才会被调用
