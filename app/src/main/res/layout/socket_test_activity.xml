@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="24dp">
+
+    <EditText
+        android:id="@+id/edit_input_to_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="客户端往服务端发送消息"/>
+
+    <Button
+        android:id="@+id/btn_send_to_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="客户端发送"/>
+
+
+    <EditText
+        android:id="@+id/edit_input_to_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="服务端往客户端发送消息"/>
+
+    <Button
+        android:id="@+id/btn_send_to_client"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="服务端发送"/>
+
+
+    <Button
+        android:id="@+id/btn_send_to_service_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="客户端发送图片"/>
+
+    <ImageView
+        android:id="@+id/image_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+
+    />
+</LinearLayout>

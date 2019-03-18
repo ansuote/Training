@@ -108,15 +108,19 @@
 
 
         <activity android:name=".module.service.TestServiceActivity">
+
+        </activity>
+
+        <service android:name=".module.service.TestService"/>
+
+
+        <activity android:name=".module.socket.SocketTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <service android:name=".module.service.TestService"/>
-
 
         <!--bugly 升级相关-->
 
