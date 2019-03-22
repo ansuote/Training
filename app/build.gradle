@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
 // 依赖插件脚本
 if (isTinkerEnable.toBoolean()) {
-    apply from: 'tinker-support.gradle'
+    apply from: 'tinker/tinker-support.gradle'
 }
 apply from: 'multiple-channel.gradle'
 
@@ -73,19 +73,28 @@ android {
     }
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
             //测试／正式统一一个签名
             signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+
+            //tinker分包规则，注意此处必须在次声明。因为 tinkerSupport = false 的时候，不会引入分包规则，如果不同dex,会导致5.0及其找不到tinker类
+            multiDexKeepProguard file("tinker/tinker_multidexkeep.pro")
+            multiDexKeepFile file('multidex-config.txt')
         }
 
         release {
+            //测试／正式统一一个签名
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
-            multiDexKeepFile file('multidex-config.txt')
+            //混淆规则，注意此处必须加入 tinker_proguard.pro，防止 tinkerSupport = false 的时候，不引入的情况。
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            proguardFiles 'proguard-android.txt', 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            proguardFiles 'proguard-android.txt', 'proguard-rules.pro','tinker/tinker_proguard.pro'
+
+            //tinker分包规则，注意此处必须在次声明。因为 tinkerSupport = false 的时候，不会引入分包规则，如果不同dex,会导致5.0及其找不到tinker类
+            multiDexKeepProguard file("tinker/tinker_multidexkeep.pro")
+            multiDexKeepFile file('multidex-config.txt')
         }
     }
 //  lintOptions {

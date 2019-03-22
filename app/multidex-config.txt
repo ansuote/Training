@@ -1,0 +1,14 @@
+com/lkl/ansuote/traning/core/base/tinker/BusinessApplicationLike.class
+com/lkl/ansuote/traning/core/base/tinker/BaseTinkerApplication.class
+com/alibaba/android/arouter/launcher/ARouter.class
+com/blankj/utilcode/util/Utils.class
+com/lkl/ansuote/hdqlibrary/base/AppStatusTracker.class
+com/lkl/ansuote/modulemodel/base/ModuleModel.class
+com/lkl/ansuote/traning/core/base/Constants.class
+com/meituan/android/walle/WalleChannelReader.class
+com/orhanobut/logger/AndroidLogAdapter.class
+com/orhanobut/logger/Logger.class
+com/tencent/bugly/Bugly.class
+com/tencent/bugly/beta/Beta.class
+com/tencent/bugly/beta/interfaces/BetaPatchListener.class
+com/tencent/tinker/entry/DefaultApplicationLike.class
