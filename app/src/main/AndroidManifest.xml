@@ -29,12 +29,8 @@
         </activity>
 
         <activity android:name=".module.share.ShareActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
+
         <activity android:name=".module.addressbook.AddressBookActivity">
 
         </activity>
@@ -120,7 +116,11 @@
 
 
         <activity android:name=".module.socket.SocketTestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <!--bugly 升级相关-->

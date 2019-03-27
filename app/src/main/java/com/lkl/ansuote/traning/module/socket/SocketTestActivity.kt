@@ -2,12 +2,10 @@ package com.lkl.ansuote.traning.module.socket
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.lkl.ansuote.hdqlibrary.base.BaseActivity
 import com.lkl.ansuote.traning.R
-import com.lkl.ansuote.traning.module.socket.HSocketClient.Companion.TYPE_JPG
 import com.lkl.ansuote.traning.module.socket.callback.HSocketReadCallback
 import com.lkl.ansuote.traning.module.socket.callback.HSocketWriteCallback
 import kotlinx.android.synthetic.main.socket_test_activity.*
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.socket_test_activity.*
 class SocketTestActivity : BaseActivity() {
     private var mHSocketServer: HSocketServer? = null
     private var mHSocketClient: HSocketClient? = null
-    private var mHost : String = "localhost"  //localhost
+    private var mHost : String = "192.168.31.154"  //localhost  192.168.31.154
     private var mPort: Int = 9038
 
 
@@ -35,7 +33,7 @@ class SocketTestActivity : BaseActivity() {
     }
 
     private fun initSocket() {
-        mHSocketServer = HSocketServer(mPort, object : HSocketReadCallback {
+        /*mHSocketServer = HSocketServer(mPort, object : HSocketReadCallback {
             override fun onSuccess(buffer: ByteArray, offset: Int, len: Int, type: String?) {
                 when (type) {
                     TYPE_JPG -> {
@@ -56,7 +54,7 @@ class SocketTestActivity : BaseActivity() {
 
         }).apply {
             this.run()
-        }
+        }*/
 
         mHSocketClient = HSocketClient(mHost,mPort, object : HSocketReadCallback {
             override fun onSuccess(buffer: ByteArray, offset: Int, len: Int, type: String?) {

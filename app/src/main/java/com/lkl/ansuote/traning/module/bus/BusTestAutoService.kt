@@ -3,7 +3,7 @@ package com.lkl.ansuote.traning.module.bus
 import android.arch.lifecycle.LifecycleService
 import android.arch.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
-import com.lkl.ansuote.modulebus.LiveEventBus
+import com.lkl.ansuote.hdqlibrary.core.bus.LiveEventBus
 
 /**
  *

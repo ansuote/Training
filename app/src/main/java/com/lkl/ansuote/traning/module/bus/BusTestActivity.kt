@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ServiceUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.lkl.ansuote.hdqlibrary.base.BaseActivity
-import com.lkl.ansuote.modulebus.LiveEventBus
+import com.lkl.ansuote.hdqlibrary.core.bus.LiveEventBus
 import com.lkl.ansuote.traning.R
 import io.reactivex.Flowable
 import io.reactivex.Observable

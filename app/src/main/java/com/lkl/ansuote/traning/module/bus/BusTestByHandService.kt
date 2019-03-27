@@ -5,7 +5,7 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.IBinder
 import com.blankj.utilcode.util.ToastUtils
-import com.lkl.ansuote.modulebus.LiveEventBus
+import com.lkl.ansuote.hdqlibrary.core.bus.LiveEventBus
 
 /**
  *
