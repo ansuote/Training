@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:gravity="center">
 
-
         <Button
             android:id="@+id/btn_create_group"
             style="@style/BaseNormalBtnStyle"
@@ -39,11 +38,6 @@
             android:text="通过号码或者姓名查找"/>
 
         <Button
-            android:id="@+id/btn_update"
-            style="@style/BaseNormalBtnStyle"
-            android:text="批量新增或更新"/>
-
-        <Button
             android:id="@+id/btn_save_to_group"
             style="@style/BaseNormalBtnStyle"
             android:text="保存联系人到分组"/>
@@ -54,13 +48,14 @@
             android:text="查询 groupId 对应的所有成员" />
 
         <Button
-            android:id="@+id/btn_get_group_row_id"
+            android:id="@+id/btn_add_or_update"
             style="@style/BaseNormalBtnStyle"
-            android:text="获取 groupRowId"/>
+            android:text="批量同步（新增或更新）"/>
 
         <Button
-            android:id="@+id/btn_add_many"
+            android:id="@+id/btn_delete_all"
             style="@style/BaseNormalBtnStyle"
-            android:text="批量增加大量测试用户"/>
+            android:text="删除所有联系人"/>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

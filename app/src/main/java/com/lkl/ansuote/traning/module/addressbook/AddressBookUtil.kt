@@ -540,4 +540,60 @@ object AddressBookUtil {
                         groupId.toString(),
                         ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE))
     }
+
+    /**
+     * 删除所有通讯录
+     * @param context Context?
+     */
+    fun deleteAll(context: Context?) {
+        Log.i("lkl", "deleteAll 开始")
+
+        val contractIdList = getContactIdList(context)
+        if (contractIdList.isEmpty()) {
+            return
+        }
+
+        val contactsListSize = contractIdList.size
+        val ops = arrayListOf<ContentProviderOperation>().apply {
+            contractIdList.forEach {
+                this.add(ContentProviderOperation.newDelete(ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, it))
+                        .withYieldAllowed(true)
+                        .build())
+            }
+        }
+
+        try {
+            context?.contentResolver?.applyBatch(ContactsContract.AUTHORITY, ops)
+            ops.clear()
+        } catch (e: Exception) {
+            Log.i("lkl", "deleteAll e = ${e}")
+            e.printStackTrace()
+            return
+        }
+
+        Log.i("lkl", "deleteAll 结束")
+
+
+    }
+
+    /**
+     * 获取联系人id
+     * @param context Context?
+     * @return MutableList<Long>
+     */
+    private fun getContactIdList(context: Context?): MutableList<Long> {
+        val resultList = mutableListOf<Long>()
+
+        val cursor = context?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null)
+        cursor?.let {
+            while (it.moveToNext()) {
+                val contactId = it.getLong(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID))
+                resultList.add(contactId)
+            }
+
+            it.close()
+        }
+
+        return resultList
+    }
 }

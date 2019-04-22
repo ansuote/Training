@@ -67,39 +67,6 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                 Log.i("lkl", "id = $id")
             }
 
-            btn_update -> {
-//                AddressBookUtil.update(this,
-//                        AddressBookUtil.findFirstContactByPhoneOrName(this, "121", "AS"),
-//                        PhoneContact().apply {
-//                            this.phoneNumber = "135801293393323"
-//                            this.displayName = "AS修改"
-//                })
-
-                AddressBookUtil.syncContacts(this, mutableListOf<PhoneContact>().apply {
-                    val groupId = AddressBookUtil.createGroup(this@AddressBookActivity, GROUP_TITLE_TEST)
-
-                    add(PhoneContact().apply {
-                        this.displayName = "卡丽丽"
-                        this.phoneNumber = "2223213999"
-                        this.note = "ACC_note"
-                        this.groupId = groupId
-                    })
-
-                    add(PhoneContact().apply {
-                        this.displayName = "AS100"
-                        this.phoneNumber = "221999"
-                        this.note = "ACC_note"
-                        this.groupId = groupId
-                    })
-                    add(PhoneContact().apply {
-                        this.displayName = "AS200"
-                        this.phoneNumber = "222999"
-                        this.note = "ACC_note"
-                        this.groupId = groupId
-                    })
-                })
-            }
-
             btn_query_by_group_id -> {
                 AddressBookUtil.getMemberForGroupId(this, getGroupByTitle(this, GROUP_TITLE_TEST))
 
@@ -111,15 +78,12 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                         getContractId(this, "13580129339"))
             }
 
-            btn_get_group_row_id -> {
-//                val groupRowId = AddressBookUtil.getGroupRowId(this, AddressBookUtil.getContractId(this, "221999"))
-//                Log.i("lkl", "groupRowId = $groupRowId")
-            }
-            btn_add_many -> {
-                Thread{
+            btn_add_or_update -> {
+                Thread {
+                    //TODO LKL 超过600会有问题，待优化
                     AddressBookUtil.syncContacts(this, mutableListOf<PhoneContact>().apply {
                         val groupId = AddressBookUtil.createGroup(this@AddressBookActivity, GROUP_TITLE_TEST)
-                        for (i in 0..400) {
+                        for (i in 0..100) {
                             add(PhoneContact().apply {
                                 this.displayName = "ee大量测试用户--$i"
                                 this.phoneNumber = "2313123$i"
@@ -128,8 +92,12 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                             })
                         }
                     })
-                }.run()
-
+                }.start()
+            }
+            btn_delete_all -> {
+                Thread {
+                    AddressBookUtil.deleteAll(this)
+                }.start()
             }
         }
     }
