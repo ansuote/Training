@@ -32,11 +32,11 @@
         </activity>
 
         <activity android:name=".module.addressbook.AddressBookActivity">
-            <intent-filter>
+<!--            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity android:name=".module.dagger.DaggerActivity">
@@ -122,6 +122,14 @@
 
         <activity android:name=".module.socket.SocketTestActivity">
 
+        </activity>
+
+        <activity android:name=".module.arithmetic.ArithMeticActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <!--bugly 升级相关-->
