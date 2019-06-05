@@ -10,26 +10,6 @@ import android.util.Log
 import com.lkl.ansuote.traning.core.base.PhoneContact
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  *
  * 通讯录相关工具类，之前该接口之前，外面必须先获取通讯录权限
@@ -595,5 +575,70 @@ object AddressBookUtil {
         }
 
         return resultList
+    }
+
+
+    fun addContactPhoneNumber(context: Context?,contactName: String, phoneNumber: String) {
+        val values = ContentValues()
+
+        val contentResolver = context?.contentResolver
+
+        if (null != contentResolver) {
+            var uri = contentResolver.insert(ContactsContract.RawContacts.CONTENT_URI, values)
+            val contact_id = ContentUris.parseId(uri)
+
+            //插入data表
+            uri = ContactsContract.Data.CONTENT_URI
+            val raw_contact_id = ContactsContract.Data.RAW_CONTACT_ID
+            val data2 = ContactsContract.Data.DATA2
+            val data1 = ContactsContract.Data.DATA1
+            //add Name
+            values.put(raw_contact_id, contact_id)
+            values.put(ContactsContract.CommonDataKinds.Phone.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+            values.put(data2, contactName)
+            values.put(data1, contactName)
+            contentResolver.insert(uri, values)
+            values.clear()
+            //add Phone
+            values.put(raw_contact_id, contact_id)
+            values.put(ContactsContract.CommonDataKinds.Phone.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+            values.put(data2, phoneNumber)   //手机
+            values.put(data1, phoneNumber)
+            contentResolver.insert(uri, values)
+            values.clear()
+        }
+
+    }
+
+    fun deleteContactPhoneNumber(context: Context?, contactName: String, phone: String) {
+        //根据姓名求id
+        val resolver = context?.contentResolver
+
+        if (null != resolver) {
+            val id = getRawContactId2(context, phone, contactName)
+            resolver.delete(ContactsContract.RawContacts.CONTENT_URI, ContactsContract.Contacts._ID + " =?", arrayOf("${id}"))
+        }
+
+    }
+
+    /**
+     * 获取 RawContactId （匹配姓名 and 号码）
+     */
+    fun getRawContactId2(context: Context?, phone: String, displayName: String): Long {
+        if (null != context) {
+            val cursor = context.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER + " = ? and " +
+                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
+                    arrayOf(phone, displayName), null)
+            if (null != cursor && cursor.moveToFirst()) {
+                val rawContactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID))
+                cursor.close()
+                return rawContactId
+
+            } else {
+                return 0L
+            }
+        }
+        return 0L
     }
 }

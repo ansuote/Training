@@ -99,6 +99,14 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                     AddressBookUtil.deleteAll(this)
                 }.start()
             }
+
+            btn_add_contacts -> {
+                AddressBookUtil.addContactPhoneNumber(this, "测试111", "13508128293")
+            }
+
+            btn_remove_contacts -> {
+                AddressBookUtil.deleteContactPhoneNumber(this, "测试111", "13508128293")
+            }
         }
     }
 

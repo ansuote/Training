@@ -57,5 +57,15 @@
             style="@style/BaseNormalBtnStyle"
             android:text="删除所有联系人"/>
 
+        <Button
+            android:id="@+id/btn_add_contacts"
+            style="@style/BaseNormalBtnStyle"
+            android:text="新增联系人"/>
+
+        <Button
+            android:id="@+id/btn_remove_contacts"
+            style="@style/BaseNormalBtnStyle"
+            android:text="删除联系人"/>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
