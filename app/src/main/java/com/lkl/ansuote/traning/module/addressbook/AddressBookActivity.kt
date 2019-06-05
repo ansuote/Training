@@ -99,6 +99,9 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
                     AddressBookUtil.deleteAll(this)
                 }.start()
             }
+            btn_add -> {
+
+            }
         }
     }
 
