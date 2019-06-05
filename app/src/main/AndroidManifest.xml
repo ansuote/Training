@@ -125,7 +125,24 @@
         </activity>
 
         <activity android:name=".module.arithmetic.ArithMeticActivity">
+<<<<<<< HEAD
+=======
         </activity>
+
+
+        <activity android:name=".module.lifecycle.LifecycleOneActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+>>>>>>> 3db4bc24305af9ecaaf6cb826bb34d87a55b5271
+        </activity>
+
+        <activity android:name=".module.lifecycle.LifecycleTwoActivity">
+
+        </activity>
+
 
         <!--bugly 升级相关-->
 

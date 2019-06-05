@@ -67,5 +67,6 @@
             style="@style/BaseNormalBtnStyle"
             android:text="删除联系人"/>
 
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
