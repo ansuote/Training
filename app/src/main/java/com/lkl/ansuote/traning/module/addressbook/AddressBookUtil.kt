@@ -73,6 +73,29 @@ object AddressBookUtil {
     }
 
     /**
+     * 通过电话号码找到显示的名字
+     */
+    fun getDisplayNameForPhone(context: Context, phone: String): String {
+        val cursor = context?.contentResolver?.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,
+                ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",
+                arrayOf(phone),
+                null)
+        var displayName = ""
+        cursor?.let {
+            while (it.moveToNext()) {
+                displayName = it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                break
+            }
+            it.close()
+        }
+
+        return displayName
+    }
+
+
+    /**
      * 从手机号获取联系人id
      * @return Contacts._ID
      */
@@ -113,6 +136,7 @@ object AddressBookUtil {
                 where, selectionArgs)
         return result != -1
     }
+
 
 
     /**
@@ -615,7 +639,7 @@ object AddressBookUtil {
         val resolver = context?.contentResolver
 
         if (null != resolver) {
-            val id = getRawContactId2(context, phone, contactName)
+            val id = getRawContactIdByDisplayNameAndPhone(context, phone, contactName)
             resolver.delete(ContactsContract.RawContacts.CONTENT_URI, ContactsContract.Contacts._ID + " =?", arrayOf("${id}"))
         }
 
@@ -624,7 +648,7 @@ object AddressBookUtil {
     /**
      * 获取 RawContactId （匹配姓名 and 号码）
      */
-    fun getRawContactId2(context: Context?, phone: String, displayName: String): Long {
+    fun getRawContactIdByDisplayNameAndPhone(context: Context?, phone: String, displayName: String): Long {
         if (null != context) {
             val cursor = context.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                     ContactsContract.CommonDataKinds.Phone.NUMBER + " = ? and " +

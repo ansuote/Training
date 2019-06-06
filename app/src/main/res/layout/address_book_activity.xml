@@ -67,6 +67,10 @@
             style="@style/BaseNormalBtnStyle"
             android:text="删除联系人"/>
 
+        <Button
+            android:id="@+id/btn_add_contacts_special"
+            style="@style/BaseNormalBtnStyle"
+            android:text="新增联系人-业务代码测试"/>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

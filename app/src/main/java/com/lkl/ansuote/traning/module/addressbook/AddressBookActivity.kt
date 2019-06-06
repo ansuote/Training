@@ -29,6 +29,9 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
     var hasPermission = false
     val GROUP_TITLE_TEST = "Training分组"
 
+    var contactDisplayName: String = "测试111"
+    var contactPhone : String = "13506128133"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.address_book_activity)
@@ -101,11 +104,26 @@ class AddressBookActivity : BaseActivity(), View.OnClickListener{
             }
 
             btn_add_contacts -> {
-                AddressBookUtil.addContactPhoneNumber(this, "测试111", "13508128293")
+                AddressBookUtil.addContactPhoneNumber(this, contactDisplayName, contactPhone)
             }
 
             btn_remove_contacts -> {
-                AddressBookUtil.deleteContactPhoneNumber(this, "测试111", "13508128293")
+                AddressBookUtil.deleteContactPhoneNumber(this, contactDisplayName, contactPhone)
+            }
+
+            btn_add_contacts_special -> {
+                //判断是在原来通讯录里面
+                if (AddressBookUtil.isPhoneExist(this, contactPhone)) {
+                    //查到名字，保存起来
+                    val displayName = AddressBookUtil.getDisplayNameForPhone(this, contactPhone)
+                    Log.i("lkl", "displayName = $displayName")
+
+                } else {
+                    AddressBookUtil.addContactPhoneNumber(this, contactDisplayName, contactPhone)
+
+                }
+
+
             }
         }
     }
